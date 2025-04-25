@@ -1,6 +1,7 @@
 import { InMemoryAdministratorsRepository } from 'test/repositories/in-memory-administrators-repository'
 import { CreateAdministratorUseCase } from './create-administrator'
 import { makeAdministrator } from 'test/factories/make-administrator'
+import { EmailAlreadyExists } from './errors/email-already-exists'
 
 let inMemoryAdministratorsRepository: InMemoryAdministratorsRepository
 let sut: CreateAdministratorUseCase
@@ -32,5 +33,28 @@ describe('Create administrator use case', () => {
       email: 'jackson@email.com',
       role: 'Administrator',
     })
+  })
+
+  it('should not be able to create an new administrator with same e-mail', async () => {
+    const administrator = makeAdministrator({
+      name: 'John Doe',
+      email: 'john@email.com',
+      password: '123456',
+    })
+
+    inMemoryAdministratorsRepository.items.push(administrator)
+
+    const result = await sut.execute({
+      name: 'Jão',
+      email: administrator.email,
+      password: '654321',
+      whatsapp_number: '123456',
+      role: 'administrator',
+    })
+
+    console.log(result, 'result')
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(EmailAlreadyExists)
   })
 })

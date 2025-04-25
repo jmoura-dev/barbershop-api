@@ -13,7 +13,7 @@ export function makeClient(
       email: faker.internet.email(),
       password: faker.internet.password(),
       whatsapp_number: String(faker.number.int(8)),
-      role: 'Client',
+      role: 'client',
       ...override,
     },
     id,

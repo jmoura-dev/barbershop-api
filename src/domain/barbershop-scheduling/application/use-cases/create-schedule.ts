@@ -3,6 +3,7 @@ import { left, right, type Either } from '@/core/either'
 import type { SchedulesRepository } from '../repositories/schedules-repository'
 import { ClientNotFoundError } from './errors/client-not-found-error'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import type { ClientsRepository } from '../repositories/clients-repository'
 
 interface CreateScheduleUseCaseRequest {
   clientId: string
@@ -15,7 +16,10 @@ interface CreateScheduleUseCaseRequest {
 type CreateScheduleUseCaseResponse = Either<ClientNotFoundError, null>
 
 export class CreateScheduleUseCase {
-  constructor(private schedulesRepository: SchedulesRepository) {}
+  constructor(
+    private schedulesRepository: SchedulesRepository,
+    private clientsRepository: ClientsRepository,
+  ) {}
 
   async execute({
     clientId,
@@ -32,7 +36,7 @@ export class CreateScheduleUseCase {
       typeOfCut,
     })
 
-    const doesClientExists = await this.schedulesRepository.findById(clientId)
+    const doesClientExists = await this.clientsRepository.findById(clientId)
 
     if (!doesClientExists) {
       return left(new ClientNotFoundError())

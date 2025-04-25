@@ -3,6 +3,7 @@ import { left, right, type Either } from '@/core/either'
 import type { CommentsRepository } from '../repositories/comments-repository'
 import { ClientNotFoundError } from './errors/client-not-found-error'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import type { ClientsRepository } from '../repositories/clients-repository'
 
 interface CreateCommentUseCaseRequest {
   clientId: string
@@ -12,7 +13,10 @@ interface CreateCommentUseCaseRequest {
 type CreateCommentUseCaseResponse = Either<ClientNotFoundError, null>
 
 export class CreateCommentUseCase {
-  constructor(private commentsRepository: CommentsRepository) {}
+  constructor(
+    private commentsRepository: CommentsRepository,
+    private clientsRepository: ClientsRepository,
+  ) {}
 
   async execute({
     clientId,
@@ -23,7 +27,7 @@ export class CreateCommentUseCase {
       content,
     })
 
-    const doesClientExists = await this.commentsRepository.findById(clientId)
+    const doesClientExists = await this.clientsRepository.findById(clientId)
 
     if (!doesClientExists) {
       return left(new ClientNotFoundError())

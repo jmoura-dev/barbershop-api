@@ -1,10 +1,12 @@
 import { faker } from '@faker-js/faker'
-import { Schedule } from '@/domain/barbershop-scheduling/enterprise/entities/schedule'
+import {
+  Schedule,
+  type ScheduleProps,
+} from '@/domain/barbershop-scheduling/enterprise/entities/schedule'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import type { UserRootProps } from '@/domain/barbershop-scheduling/enterprise/entities/user-root'
 
 export function makeSchedule(
-  override: Partial<UserRootProps> = {},
+  override: Partial<ScheduleProps> = {},
   id?: UniqueEntityID,
 ) {
   const schedule = Schedule.create(

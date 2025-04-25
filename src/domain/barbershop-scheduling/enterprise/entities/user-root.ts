@@ -47,13 +47,13 @@ export class UserRoot extends Entity<UserRootProps> {
   }
 
   static create(props: UserRootProps, id?: UniqueEntityID) {
-    const developer = new UserRoot(
+    const user = new UserRoot(
       {
         ...props,
       },
       id,
     )
 
-    return developer
+    return user
   }
 }

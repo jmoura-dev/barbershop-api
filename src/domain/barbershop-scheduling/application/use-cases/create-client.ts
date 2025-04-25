@@ -13,7 +13,7 @@ interface CreateClientsUseCaseRequest {
 
 type CreateClientsUseCaseResponse = Either<EmailAlreadyExists, null>
 
-export class CreateClientsUseCase {
+export class CreateClientUseCase {
   constructor(private clientsRepository: ClientsRepository) {}
 
   async execute({
