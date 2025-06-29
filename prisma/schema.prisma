@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "app/generated/prisma/client"
 }
 
 datasource db {
@@ -38,13 +37,14 @@ model Comment {
 }
 
 model Schedule {
-  id              String   @id @default(uuid())
-  userId          String
-  appointmentTime String
-  cutValue        Decimal  @db.Decimal(2, 2)
-  status          Boolean
-  typeOfCut       String
-  createdAt       DateTime @default(now()) @map("created_at")
+  id        String   @id @default(uuid())
+  userId    String
+  date      String
+  time      String
+  cutValue  Decimal  @db.Decimal(2, 2)
+  status    Boolean
+  typeOfCut String
+  createdAt DateTime @default(now()) @map("created_at")
 
   user User @relation(fields: [userId], references: [id])
 }

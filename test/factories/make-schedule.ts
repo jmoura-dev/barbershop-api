@@ -12,7 +12,8 @@ export function makeSchedule(
   const schedule = Schedule.create(
     {
       clientId: new UniqueEntityID(),
-      appointmentTime: faker.lorem.word(),
+      date: new Date().toString(),
+      time: new Date().getTime().toString(),
       cutValue: faker.number.float({ min: 10, max: 50 }),
       status: true,
       typeOfCut: faker.lorem.word(),

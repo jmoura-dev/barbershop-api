@@ -8,7 +8,8 @@ import { Injectable } from '@nestjs/common'
 
 interface CreateScheduleUseCaseRequest {
   clientId: string
-  appointmentTime: string
+  date: string
+  time: string
   cutValue: number
   status: boolean
   typeOfCut: string
@@ -25,14 +26,16 @@ export class CreateScheduleUseCase {
 
   async execute({
     clientId,
-    appointmentTime,
+    date,
+    time,
     cutValue,
     status,
     typeOfCut,
   }: CreateScheduleUseCaseRequest): Promise<CreateScheduleUseCaseResponse> {
     const schedule = Schedule.create({
       clientId: new UniqueEntityID(clientId),
-      appointmentTime,
+      date,
+      time,
       cutValue,
       status,
       typeOfCut,

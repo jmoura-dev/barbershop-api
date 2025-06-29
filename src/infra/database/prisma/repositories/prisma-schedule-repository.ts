@@ -3,10 +3,31 @@ import { Schedule } from '@/domain/barbershop-scheduling/enterprise/entities/sch
 import { PrismaScheduleMapper } from '../mappers/prisma-schedule-mapper'
 import { PrismaService } from '../prisma.service'
 import { Injectable } from '@nestjs/common'
+import { generateAvailableTimeSlots } from '@/infra/utils/generateAvailableTimeSlots'
+import dayjs from 'dayjs'
 
 @Injectable()
 export class PrismaSchedulesRepository implements SchedulesRepository {
   constructor(private prisma: PrismaService) {}
+
+  async getAvailableSlotsForDay(date: string) {
+    const workingHours = generateAvailableTimeSlots(date, '09:00', '18:00', 30)
+
+    const appointments = await this.prisma.schedule.findMany({
+      where: { date: new Date(date).toString() },
+      select: { time: true },
+    })
+
+    const bookedTimes = appointments.map((appointment) =>
+      dayjs(appointment.time).format('HH:mm'),
+    )
+
+    const availableSlots = workingHours.filter(
+      (slot) => !bookedTimes.includes(slot),
+    )
+
+    return availableSlots
+  }
 
   async create(schedule: Schedule): Promise<void> {
     const data = PrismaScheduleMapper.toPrisma(schedule)

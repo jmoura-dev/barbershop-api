@@ -7,7 +7,8 @@ export class PrismaScheduleMapper {
     return Schedule.create(
       {
         clientId: new UniqueEntityID(raw.userId),
-        appointmentTime: raw.appointmentTime,
+        date: raw.date,
+        time: raw.time,
         cutValue: Number(raw.cutValue),
         status: raw.status,
         typeOfCut: raw.typeOfCut,
@@ -21,7 +22,8 @@ export class PrismaScheduleMapper {
     return {
       id: schedule.id.toString(),
       userId: schedule.clientId.toString(),
-      appointmentTime: schedule.appointmentTime,
+      date: schedule.date,
+      time: schedule.time,
       cutValue: schedule.cutValue,
       status: schedule.status,
       typeOfCut: schedule.typeOfCut,

@@ -4,7 +4,8 @@ import { Optional } from '@/core/types/optional'
 
 export interface ScheduleProps {
   clientId: UniqueEntityID
-  appointmentTime: string
+  date: string
+  time: string
   cutValue: number
   status: boolean
   typeOfCut: string
@@ -16,12 +17,20 @@ export class Schedule extends Entity<ScheduleProps> {
     return this.props.clientId
   }
 
-  get appointmentTime() {
-    return this.props.appointmentTime
+  get date() {
+    return this.props.date
   }
 
-  set appointmentTime(appointmentTime: string) {
-    this.props.appointmentTime = appointmentTime
+  set date(date: string) {
+    this.props.date = date
+  }
+
+  get time() {
+    return this.props.time
+  }
+
+  set time(time: string) {
+    this.props.time = time
   }
 
   get cutValue() {

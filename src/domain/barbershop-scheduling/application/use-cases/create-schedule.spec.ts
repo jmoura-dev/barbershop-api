@@ -30,16 +30,18 @@ describe('Create a new schedule', () => {
 
     await sut.execute({
       clientId: client.id.toString(),
-      appointmentTime: '09:30',
+      date: new Date().toString(),
+      time: new Date().getMinutes().toString(),
       cutValue: 30,
       typeOfCut: 'cabelo/barba',
       status: true,
     })
 
+    console.log(inMemorySchedulesRepository.items[0], 'resultado')
+
     expect(inMemorySchedulesRepository.items.length).toEqual(1)
     expect(inMemorySchedulesRepository.items[0]).toMatchObject({
       clientId: client.id,
-      appointmentTime: '09:30',
       typeOfCut: 'cabelo/barba',
     })
   })
@@ -58,7 +60,8 @@ describe('Create a new schedule', () => {
 
     const result = await sut.execute({
       clientId: 'client-02',
-      appointmentTime: '09:30',
+      date: new Date().toString(),
+      time: new Date().getMinutes().toString(),
       cutValue: 30,
       typeOfCut: 'cabelo/barba',
       status: true,

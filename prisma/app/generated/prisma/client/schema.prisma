@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "app/generated/prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMINISTRATOR
+  BARBER
+  CLIENT
+}
+
+model User {
+  id              String @id @default(uuid())
+  name            String
+  email           String @unique
+  password_hash   String
+  whatsapp_number String
+  role            Role   @default(CLIENT)
+
+  comment  Comment[]
+  schedule Schedule[]
+
+  @@map("users")
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  userId    String
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Schedule {
+  id        String   @id @default(uuid())
+  userId    String
+  date      String
+  time      String
+  cutValue  Decimal  @db.Decimal(2, 2)
+  status    Boolean
+  typeOfCut String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+}
