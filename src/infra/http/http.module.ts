@@ -11,10 +11,15 @@ import { CreateBarberUseCase } from '@/domain/barbershop-scheduling/application/
 import { CreateCommentUseCase } from '@/domain/barbershop-scheduling/application/use-cases/create-comment'
 import { CreateScheduleUseCase } from '@/domain/barbershop-scheduling/application/use-cases/create-schedule'
 import { RegisterUserUseCase } from '@/domain/barbershop-scheduling/application/use-cases/register-user'
+import { CreateScheduleController } from './controllers/create-schedule.controller'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
-  controllers: [CreateAccountController, AuthenticateController],
+  controllers: [
+    CreateAccountController,
+    AuthenticateController,
+    CreateScheduleController,
+  ],
   providers: [
     PrismaService,
     CreateClientUseCase,

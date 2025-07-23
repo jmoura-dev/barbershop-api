@@ -13,8 +13,11 @@ export function generateAvailableTimeSlots(
   // }
 
   const slots: string[] = []
-  let current = dayjs(`${date}T${startTime}`)
-  const end = dayjs(`${date}T${endTime}`)
+
+  const baseDate = dayjs(date).format('YYYY-MM-DD')
+
+  let current = dayjs(`${baseDate}T${startTime}`)
+  const end = dayjs(`${baseDate}T${endTime}`)
 
   while (current.isBefore(end)) {
     slots.push(current.format('HH:mm'))

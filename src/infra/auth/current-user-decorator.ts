@@ -1,22 +1,10 @@
-import { ExecutionContext, Injectable } from '@nestjs/common'
-import { Reflector } from '@nestjs/core'
-import { AuthGuard } from '@nestjs/passport'
-import { IS_PUBLIC_KEY } from './public'
+import { ExecutionContext, createParamDecorator } from '@nestjs/common'
+import { UserPayload } from './jwt.strategy'
 
-@Injectable()
-export class JwtAuthGuard extends AuthGuard('jwt') {
-  constructor(private reflector: Reflector) {
-    super()
-  }
+export const CurrentUser = createParamDecorator(
+  (_: never, context: ExecutionContext) => {
+    const request = context.switchToHttp().getRequest()
 
-  canActivate(context: ExecutionContext) {
-    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
-      context.getHandler(),
-      context.getClass(),
-    ])
-    if (isPublic) {
-      return true
-    }
-    return super.canActivate(context)
-  }
-}
+    return request.user as UserPayload
+  },
+)

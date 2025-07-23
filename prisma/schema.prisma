@@ -41,7 +41,7 @@ model Schedule {
   userId    String
   date      String
   time      String
-  cutValue  Decimal  @db.Decimal(2, 2)
+  cutValue  Decimal  @db.Decimal(5, 2)
   status    Boolean
   typeOfCut String
   createdAt DateTime @default(now()) @map("created_at")

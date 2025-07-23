@@ -14,13 +14,11 @@ export class PrismaSchedulesRepository implements SchedulesRepository {
     const workingHours = generateAvailableTimeSlots(date, '09:00', '18:00', 30)
 
     const appointments = await this.prisma.schedule.findMany({
-      where: { date: new Date(date).toString() },
+      where: { date: dayjs(date).format('YYYY-MM-DD') },
       select: { time: true },
     })
 
-    const bookedTimes = appointments.map((appointment) =>
-      dayjs(appointment.time).format('HH:mm'),
-    )
+    const bookedTimes = appointments.map((appointment) => appointment.time)
 
     const availableSlots = workingHours.filter(
       (slot) => !bookedTimes.includes(slot),

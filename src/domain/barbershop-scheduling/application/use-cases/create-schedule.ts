@@ -3,8 +3,9 @@ import { left, right, type Either } from '@/core/either'
 import { SchedulesRepository } from '../repositories/schedules-repository'
 import { ClientNotFoundError } from './errors/client-not-found-error'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { ClientsRepository } from '../repositories/clients-repository'
 import { Injectable } from '@nestjs/common'
+import { UsersRepository } from '../repositories/users-repository'
+import { TimeSlotIsNotAvailable } from './errors/time-slot-is-not-available.error'
 
 interface CreateScheduleUseCaseRequest {
   clientId: string
@@ -15,13 +16,16 @@ interface CreateScheduleUseCaseRequest {
   typeOfCut: string
 }
 
-type CreateScheduleUseCaseResponse = Either<ClientNotFoundError, null>
+type CreateScheduleUseCaseResponse = Either<
+  ClientNotFoundError | TimeSlotIsNotAvailable,
+  null
+>
 
 @Injectable()
 export class CreateScheduleUseCase {
   constructor(
     private schedulesRepository: SchedulesRepository,
-    private clientsRepository: ClientsRepository,
+    private usersRepository: UsersRepository,
   ) {}
 
   async execute({
@@ -41,10 +45,20 @@ export class CreateScheduleUseCase {
       typeOfCut,
     })
 
-    const doesClientExists = await this.clientsRepository.findById(clientId)
+    const doesClientExists = await this.usersRepository.findById(clientId)
 
     if (!doesClientExists) {
       return left(new ClientNotFoundError())
+    }
+
+    const schedules = await this.schedulesRepository.getAvailableSlotsForDay(
+      new Date().toString(),
+    )
+
+    const isTimeSlotAvailable = schedules.includes(time)
+
+    if (!isTimeSlotAvailable) {
+      return left(new TimeSlotIsNotAvailable(time))
     }
 
     await this.schedulesRepository.create(schedule)

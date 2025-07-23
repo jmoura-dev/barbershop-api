@@ -37,8 +37,6 @@ describe('Create a new schedule', () => {
       status: true,
     })
 
-    console.log(inMemorySchedulesRepository.items[0], 'resultado')
-
     expect(inMemorySchedulesRepository.items.length).toEqual(1)
     expect(inMemorySchedulesRepository.items[0]).toMatchObject({
       clientId: client.id,

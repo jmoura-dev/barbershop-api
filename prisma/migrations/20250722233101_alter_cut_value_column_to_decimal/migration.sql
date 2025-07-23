@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Schedule" ALTER COLUMN "cutValue" SET DATA TYPE DECIMAL(5,2);

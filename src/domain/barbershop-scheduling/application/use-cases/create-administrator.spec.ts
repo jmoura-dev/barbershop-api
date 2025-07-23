@@ -52,8 +52,6 @@ describe('Create administrator use case', () => {
       role: 'administrator',
     })
 
-    console.log(result, 'result')
-
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(EmailAlreadyExists)
   })
