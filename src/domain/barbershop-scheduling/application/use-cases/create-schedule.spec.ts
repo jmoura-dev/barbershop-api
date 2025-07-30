@@ -31,7 +31,7 @@ describe('Create a new schedule', () => {
     await sut.execute({
       clientId: client.id.toString(),
       date: new Date().toString(),
-      time: new Date().getMinutes().toString(),
+      time: '09:30',
       cutValue: 30,
       typeOfCut: 'cabelo/barba',
       status: true,

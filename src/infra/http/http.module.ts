@@ -12,6 +12,8 @@ import { CreateCommentUseCase } from '@/domain/barbershop-scheduling/application
 import { CreateScheduleUseCase } from '@/domain/barbershop-scheduling/application/use-cases/create-schedule'
 import { RegisterUserUseCase } from '@/domain/barbershop-scheduling/application/use-cases/register-user'
 import { CreateScheduleController } from './controllers/create-schedule.controller'
+import { GetAvailableSlotsForDayUseCase } from '@/domain/barbershop-scheduling/application/use-cases/get-available-slots-for-day'
+import { GetAvailableSlotsController } from './controllers/get-available-slots.controller'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -19,6 +21,7 @@ import { CreateScheduleController } from './controllers/create-schedule.controll
     CreateAccountController,
     AuthenticateController,
     CreateScheduleController,
+    GetAvailableSlotsController,
   ],
   providers: [
     PrismaService,
@@ -29,6 +32,7 @@ import { CreateScheduleController } from './controllers/create-schedule.controll
     CreateCommentUseCase,
     CreateScheduleUseCase,
     RegisterUserUseCase,
+    GetAvailableSlotsForDayUseCase,
   ],
 })
 export class HttpModule {}
